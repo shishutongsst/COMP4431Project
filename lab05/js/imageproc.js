@@ -22,12 +22,19 @@
     /*
      * Update the input image canvas
      */
-    imageproc.updateInputImage = function() {
+    imageproc.updateInputImage = function(fileurl) {
         var image = new Image();
         image.onload = function () {
             input.drawImage(image, 0, 0);
         }
-        image.src = "images/" + imageSelector.val();
+        //image.src = "images/" + imageSelector.val();
+		
+		if(fileurl){
+			image.src = fileurl;
+			console.log(image.src);
+		}else{
+			image.src = "images/" + imageSelector.val();
+		}
     }
 
     /*

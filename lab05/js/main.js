@@ -11,6 +11,9 @@ var currentShadeLayerOp = "no-op";
 // Currently selected outline layer operation
 var currentOutlineLayerOp = "no-op";
 
+const image_input = document.querySelector("#image_input");
+var uploaded_image = "";
+
 // Event handler for the 'click' event of the tabs
 // The main goal of this handler is to improve the user experience by adding
 // the behaviour of switching tab when the tab is clicked, in additional to
@@ -107,3 +110,4 @@ $(document).ready(function() {
     $('a.nav-link').on("click", showTab); // Tab clicked
     $('a.dropdown-item').on("click", changeTabs); // Tab item clicked
 });
+

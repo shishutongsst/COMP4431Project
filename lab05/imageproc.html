@@ -90,6 +90,9 @@
                             <li><a class="dropdown-item" href="#no-op"><i>Do Nothing</i></a></li>
                             <li><a class="dropdown-item" href="#blur">Blur</a></li>
                             <li><a class="dropdown-item" href="#kuwahara">Kuwahara Filter</a></li>
+							<li><a class="dropdown-item" href="#tomita">Tomita-Tsuji Filter</a></li>
+							<li><a class="dropdown-item" href="#nagao">Nagao-Matsuyama Filter</a></li>
+							<li><a class="dropdown-item" href="#papari">Papari Filter</a></li>
                         </ul>
                     </li>
 
@@ -310,7 +313,16 @@
                                         <option value="processed">Processed Image</option>
                                     </select>
                                 </div>
-                                <div class="col-4">
+								<div class="col-4">
+                                    <label for="kuwahara-filter-type">Filter type:</label>
+                                    <select class="custom-select" id="kuwahara-filter-type">
+										<option value="basic">Basic</option>
+                                        <option value="tomita">Tomita-Tsuji</option>
+                                        <option value="nagao">Nagao-Matsuyama</option>
+										<option value="papari">Papari</option>
+                                    </select>
+                                </div>                                
+								<div class="col-5">
                                     <label for="kuwahara-filter-size">Filter size:</label>
                                     <div class="input-group">
                                         <div class="row flex-fill align-items-center mx-0 px-2 border rounded-left">
@@ -322,18 +334,132 @@
                                         </div>
                                     </div>
                                 </div>
-								<div class="col-5">
-                                    <label for="kuwahara-filter-type">Filter type:</label>
-                                    <select class="custom-select" id="kuwahara-filter-type">
-										<option value="basic">Basic</option>
-                                        <option value="tomita">Tomita-Tsuji</option>
-                                        <option value="nagao">Nagao-Matsuyama</option>
-										<option value="papari">Papari</option>
+                            </div>
+                        </div>
+                    </div>
+					
+					<!-- Tomita filter -->
+                    <div class="tab-pane" id="tomita">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-3">
+                                    <label for="tomita-input">Input:</label>
+                                    <select class="custom-select" id="tomita-input">
+                                        <option value="original">Original Image</option>
+                                        <option value="processed">Processed Image</option>
                                     </select>
+                                </div>                             
+								<div class="col-4">
+                                    <label for="tomita-filter-size">Filter size:</label>
+                                    <div class="input-group">
+                                        <div class="row flex-fill align-items-center mx-0 px-2 border rounded-left">
+                                            <input class="custom-range" id="tomita-filter-size" type="range" value="5" min="5" max="13" step="4"
+                                             oninput="$(this).parents('.input-group').find('.input-group-text > span').html($(this).val())">
+                                        </div>
+                                        <div class="input-group-append">
+                                            <span class="input-group-text d-block" style="width: 5.5em"><span>5</span> &times; <span>5</span></span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+
+					<!-- Nagao filter -->
+                    <div class="tab-pane" id="nagao">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-3">
+                                    <label for="nagao-input">Input:</label>
+                                    <select class="custom-select" id="nagao-input">
+                                        <option value="original">Original Image</option>
+                                        <option value="processed">Processed Image</option>
+                                    </select>
+                                </div>                             
+                            </div>
+                        </div>
+                    </div>
+					
+					<!-- Papari filter -->
+                    <div class="tab-pane" id="papari">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-3">
+                                    <label for="papari-input">Input:</label>
+                                    <select class="custom-select" id="papari-input">
+                                        <option value="original">Original Image</option>
+                                        <option value="processed">Processed Image</option>
+                                    </select>
+                                </div> 
+								<div class="col-6">
+									<label for="papari-import">Import:</label>
+									<div class="form-inline">
+										<input id = "fileupload" type = "file" accept = "image/png, image/jpg" />
+										<img src="" id="myImg" width="250" height"250" />
+										<script>
+										window.addEventListener('load', function(){
+											console.log("loaded");
+											document.querySelector('input[type="file"]').addEventListener('change', function(){
+												var img = document.getElementById("myImg");
+												img.src = URL.createObjectURL(this.files[0]);
+												console.log(img.src);
+												//img.onload = imgLoaded;
+												imageproc.updateInputImage(img.src);
+											});
+										});
+										</script>
+									</div>
+								</div>								
+                            </div>
+							<div class="row mt-2">                            
+								<div class="col-4">
+                                    <label for="papari-filter-q">Filter q:</label>
+                                    <div class="input-group">
+                                        <div class="row flex-fill align-items-center mx-0 px-2 border rounded-left">
+                                            <input class="custom-range" id="papari-filter-q" type="range" value="5" min="5" max="13" step="4"
+                                             oninput="$(this).parents('.input-group').find('.input-group-text > span').html($(this).val())">
+                                        </div>
+                                        <div class="input-group-append">
+                                            <span class="input-group-text d-block" style="width: 5.5em"><span>5</span> &times; <span>5</span></span>
+                                        </div>
+                                    </div>
+                                </div>
+								<div class="col-4">
+                                    <label for="papari-filter-N">Filter N:</label>
+                                    <div class="input-group">
+                                        <div class="row flex-fill align-items-center mx-0 px-2 border rounded-left">
+                                            <input class="custom-range" id="papari-filter-N" type="range" value="5" min="5" max="13" step="4"
+                                             oninput="$(this).parents('.input-group').find('.input-group-text > span').html($(this).val())">
+                                        </div>
+                                        <div class="input-group-append">
+                                            <span class="input-group-text d-block" style="width: 5.5em"><span>5</span> &times; <span>5</span></span>
+                                        </div>
+                                    </div>
+                                </div>
+								<div class="col-4">
+                                    <label for="papari-filter-sigma">Filter Sigma:</label>
+                                    <div class="input-group">
+                                        <div class="row flex-fill align-items-center mx-0 px-2 border rounded-left">
+                                            <input class="custom-range" id="papari-filter-sigma" type="range" value="5" min="5" max="13" step="4"
+                                             oninput="$(this).parents('.input-group').find('.input-group-text > span').html($(this).val())">
+                                        </div>
+                                        <div class="input-group-append">
+                                            <span class="input-group-text d-block" style="width: 5.5em"><span>5</span> &times; <span>5</span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+							<div class="row mt-2">
+								<div class="col-6">
+                                    <label for="papari-grayscale">Indicate the image is in Color or Not:</label>
+                                    <div class="input-group">
+                                        <input class="form-control toggle-control" id="papari-grayscale" type="checkbox" />
+                                    </div>
+                                </div>
+							</div>
+                        </div>
+                    </div>
+					
 
                     <!-- Ordered dithering -->
                     <div class="tab-pane" id="dither">

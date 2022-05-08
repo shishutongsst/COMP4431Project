@@ -75,24 +75,37 @@
                 if ($("#kuwahara-input").val() == "processed")
                     inputImage = processedImage;
                 var size = parseInt($("#kuwahara-filter-size").val());
-				var type = $("#kuwahara-filter-type").val();
-				
-				
-                switch(type){
-					case "basic":
-					imageproc.kuwahara(inputImage, outputImage, size);
-					break;
-					case "tomita":
-					imageproc.tomita(inputImage, outputImage, size);
-					break;
-					case "nagao":
-					imageproc.nagao(inputImage, outputImage, size);
-					break;
-					case "papari":
-					imageproc.papari(inputImage, outputImage, size);
-					break;
+				//var type = $("#kuwahara-filter-type").val();
+				imageproc.kuwahara(inputImage, outputImage, size);   
+			break;
+			
+			case "tomita":
+				if ($("#tomita-input").val() == "processed")
+                    inputImage = processedImage;
+                var size = parseInt($("#tomita-filter-size").val());
+				imageproc.tomita(inputImage, outputImage, size);
+			break;
+			
+			case "nagao":
+				if ($("#nagao-input").val() == "processed")
+                    inputImage = processedImage;
+				imageproc.nagao(inputImage, outputImage);
+			break;
+			
+			case "papari":
+				if ($("#papari-input").val() == "processed")
+                    inputImage = processedImage;
+                var q = parseInt($("#papari-filter-q").val());
+				var N = parseInt($("#papari-filter-N").val());
+				var sigma = parseInt($("#papari-filter-sigma").val());
+				imageproc.papari(inputImage, outputImage, q, N, sigma);
+				if ($("#papari-grayscale").prop("checked")) {
+					//in color
+				}else{
+					//in grayscale
 				}
-                break;
+			break;
+			
         }
     }
 

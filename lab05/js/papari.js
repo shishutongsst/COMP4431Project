@@ -4,7 +4,7 @@
     /*
      * Apply Tomita filter to the input data
      */
-    imageproc.papari = function(inputData, outputData, size) {
+    imageproc.papari = function(inputData, outputData, q, N, sigma) {
         console.log("Applying Papari filter...");
 
         /*
@@ -18,7 +18,7 @@
         /*
          * An internal function to find the regional stat centred at (x, y)
          */
-		
+		var size = q;
 		var shiftSize = (size-1)/4;
 		var sideLength = (size-1)/2 + 1;
 		var regionSize = sideLength * sideLength;

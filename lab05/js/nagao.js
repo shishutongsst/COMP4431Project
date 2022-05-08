@@ -4,7 +4,7 @@
     /*
      * Apply Tomita filter to the input data
      */
-    imageproc.nagao = function(inputData, outputData, size) {
+    imageproc.nagao = function(inputData, outputData) {
         console.log("Applying Nagao filter...");
 
         /*
