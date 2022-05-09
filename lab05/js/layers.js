@@ -98,9 +98,10 @@
                 const q = parseInt($("#papari-filter-q").val());
                 const N = parseInt($("#papari-filter-N").val());
                 const sigma = parseInt($("#papari-filter-sigma").val());
+                const filterSize = parseInt($("#papari-filter-size").val());
                 const isColor = $("#papari-grayscale").prop("checked");
-                imageproc.papari(inputImage, outputImage, q, N, sigma, isColor);
-                
+                imageproc.papari(inputImage, outputImage, q, N, sigma, filterSize, isColor);
+
                 break;
 
         }

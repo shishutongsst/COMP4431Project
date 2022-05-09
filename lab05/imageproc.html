@@ -453,15 +453,6 @@
                     <!-- Papari filter -->
                     <div class="tab-pane" id="papari">
                         <div class="container-fluid">
-                            <div class="row">
-                                <div class="col-3">
-                                    <label for="papari-input">Input:</label>
-                                    <select class="custom-select" id="papari-input">
-                                        <option value="original">Original Image</option>
-                                        <option value="processed">Processed Image</option>
-                                    </select>
-                                </div>
-                            </div>
                             <div class="row mt-2">
                                 <div class="col-4">
                                     <label for="papari-filter-q">Filter q:</label>
@@ -478,10 +469,10 @@
                                     </div>
                                 </div>
                                 <div class="col-4">
-                                    <label for="papari-filter-N">Filter N:</label>
+                                    <label for="papari-filter-size">Filter Size:</label>
                                     <div class="input-group">
                                         <div class="row flex-fill align-items-center mx-0 px-2 border rounded-left">
-                                            <input class="custom-range" id="papari-filter-N" type="range" value="5"
+                                            <input class="custom-range" id="papari-filter-size" type="range" value="5"
                                                 min="5" max="13" step="4"
                                                 oninput="$(this).parents('.input-group').find('.input-group-text > span').html($(this).val())">
                                         </div>
@@ -507,11 +498,32 @@
                                 </div>
                             </div>
                             <div class="row mt-2">
-                                <div class="col-6">
+                                <div class="col-3">
+                                    <label for="papari-input">Input:</label>
+                                    <select class="custom-select" id="papari-input">
+                                        <option value="original">Original Image</option>
+                                        <option value="processed">Processed Image</option>
+                                    </select>
+                                </div>
+                                <div class="col-4">
                                     <label for="papari-grayscale">Indicate the image is in Color or Not:</label>
                                     <div class="input-group">
                                         <input class="form-control toggle-control" id="papari-grayscale"
                                             type="checkbox" />
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <label for="papari-filter-N">Filter N:</label>
+                                    <div class="input-group">
+                                        <div class="row flex-fill align-items-center mx-0 px-2 border rounded-left">
+                                            <input class="custom-range" id="papari-filter-N" type="range" value="5"
+                                                min="3" max="12" step="1"
+                                                oninput="$(this).parents('.input-group').find('.input-group-text > span').html($(this).val())">
+                                        </div>
+                                        <div class="input-group-append">
+                                            <span class="input-group-text d-block" style="width: 5.5em"><span>5</span>
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
