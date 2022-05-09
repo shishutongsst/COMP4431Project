@@ -55,25 +55,41 @@
     <div class="main container">
         <div class="row">
             <div class="col-6">
-                <h5>Input Image</h5>
-                <canvas id="input" width="480" height="360"></canvas>
-                <div class="form-inline">
-                    <div class="input-group">
-                        <div class="input-group-prepend"><span class="input-group-text">Image</span></div>
-                        <select class="custom-select" id="input-image">
-                            <option value="hkust.png">HKUST</option>
-                            <option value="justice_league.png">Justice League</option>
-                            <option value="wonder_woman.png">Wonder Woman</option>
-                            <option value="cap.png">Captain America</option>
-                            <option value="agatha.png">Agatha Harkness</option>
-                            <option value="mandalorian.png">Mandalorian</option>
-                            <option value="trooper.png">Stormtroopers</option>
-                            <option value="oldhongkong1.png">Old Hong Kong 1</option> <!-- from gwulo.com -->
-                            <option value="oldhongkong2.png">Old Hong Kong 2</option> <!-- from oldhkphoto.com -->
-                            <option value="grayscale.png">Grayscale Test</option>
-                        </select>
+                <div>
+                    <h5>Input Image</h5>
+                    <canvas id="input" width="480" height="360"></canvas>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-inline">
+                                <div class="input-group">
+                                    <div class="input-group-prepend"><span class="input-group-text">Image</span></div>
+                                    <select class="custom-select" id="input-image">
+                                        <option value="hkust.png">HKUST</option>
+                                        <option value="justice_league.png">Justice League</option>
+                                        <option value="wonder_woman.png">Wonder Woman</option>
+                                        <option value="cap.png">Captain America</option>
+                                        <option value="agatha.png">Agatha Harkness</option>
+                                        <option value="mandalorian.png">Mandalorian</option>
+                                        <option value="trooper.png">Stormtroopers</option>
+                                        <option value="oldhongkong1.png">Old Hong Kong 1</option>
+                                        <!-- from gwulo.com -->
+                                        <option value="oldhongkong2.png">Old Hong Kong 2</option>
+                                        <!-- from oldhkphoto.com -->
+                                        <option value="grayscale.png">Grayscale Test</option>
+                                        <option value="user-upload" disabled>User Upload</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <label for="papari-import">Upload:</label>
+                            <div class="form-inline">
+                                <input id="fileupload" type="file" accept="image/png, image/jpg" />
+                            </div>
+                        </div>
                     </div>
                 </div>
+
             </div>
             <div class="col-6">
                 <h5>Output Image</h5>
@@ -445,25 +461,6 @@
                                         <option value="processed">Processed Image</option>
                                     </select>
                                 </div>
-                                <div class="col-6">
-                                    <label for="papari-import">Import:</label>
-                                    <div class="form-inline">
-                                        <input id="fileupload" type="file" accept="image/png, image/jpg" />
-                                        <img src="" id="myImg" width="250" height"250" />
-                                        <script>
-                                            window.addEventListener('load', function () {
-                                                console.log("loaded");
-                                                document.querySelector('input[type="file"]').addEventListener('change', function () {
-                                                    const img = document.getElementById("myImg");
-                                                    img.src = URL.createObjectURL(this.files[0]);
-                                                    console.log(img.src);
-                                                    //img.onload = imgLoaded;
-                                                    imageproc.updateInputImage(img.src);
-                                                });
-                                            });
-                                        </script>
-                                    </div>
-                                </div>
                             </div>
                             <div class="row mt-2">
                                 <div class="col-4">
@@ -637,6 +634,16 @@
     <script src="js/outline.js"></script>
     <script src="js/main.js"></script>
     <script src="js/layers.js"></script>
+    <script>
+        window.addEventListener('load', function () {
+            console.log("loaded");
+            document.querySelector('input[type="file"]').addEventListener('change', function () {
+                const imgSrc = URL.createObjectURL(this.files[0]);
+                imageproc.updateInputImage(imgSrc);
+                $("#input-image").val("user-upload")
+            });
+        });
+    </script>
 </body>
 
 </html>

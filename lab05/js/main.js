@@ -92,17 +92,21 @@ function changeTabs(e) {
 }
 
 // Set up every things when the document is fully loaded
-$(document).ready(function() {
+$(document).ready(function () {
     // Initialize the imageproc module.
     // Get ready for the canvas area and automatically load the input image
     imageproc.init("input", "output", "input-image");
 
     // Update the input image when the selection is changed
-    $("#input-image").on("change", function() { imageproc.updateInputImage(); });
+    $("#input-image").on("change", function (event) {
+        if (event.currentTarget[event.currentTarget.selectedIndex].value === "user-upload")
+            return
+        imageproc.updateInputImage();
+    });
 
     // Update button to apply all image processing functions
-    $("#output-update").on("click", function() { imageproc.apply(); });
-    
+    $("#output-update").on("click", function () { imageproc.apply(); });
+
     // Enable Bootstrap Toggle
     $("input[type=checkbox]").bootstrapToggle();
 

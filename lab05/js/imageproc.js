@@ -27,8 +27,6 @@
         image.onload = function () {
             input.drawImage(image, 0, 0);
         }
-        //image.src = "images/" + imageSelector.val();
-
         if (fileurl) {
             image.src = fileurl;
             console.log(image.src);
