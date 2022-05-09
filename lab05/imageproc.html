@@ -437,6 +437,21 @@
                                         <option value="processed">Processed Image</option>
                                     </select>
                                 </div>
+                                <div class="col-4">
+                                    <label for="nagao-filter-size">Filter size:</label>
+                                    <div class="input-group">
+                                        <div class="row flex-fill align-items-center mx-0 px-2 border rounded-left">
+                                            <input class="custom-range" id="nagao-filter-size" type="range" value="5"
+                                                min="5" max="5" step="1"
+                                                oninput="$(this).parents('.input-group').find('.input-group-text > span').html($(this).val())"
+                                                disabled>
+                                        </div>
+                                        <div class="input-group-append">
+                                            <span class="input-group-text d-block" style="width: 5.5em"><span>5</span>
+                                                &times; <span>5</span></span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
