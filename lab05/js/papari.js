@@ -4,7 +4,7 @@
     /*
      * Apply Tomita filter to the input data
      */
-    imageproc.papari = function(inputData, outputData, q, N, sigma) {
+    imageproc.papari = function(inputData, outputData, q, N, sigma, isColor) {
         console.log("Applying Papari filter...");
 
         /*

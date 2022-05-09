@@ -95,15 +95,12 @@
             case "papari":
                 if ($("#papari-input").val() == "processed")
                     inputImage = processedImage;
-                var q = parseInt($("#papari-filter-q").val());
-                var N = parseInt($("#papari-filter-N").val());
-                var sigma = parseInt($("#papari-filter-sigma").val());
-                imageproc.papari(inputImage, outputImage, q, N, sigma);
-                if ($("#papari-grayscale").prop("checked")) {
-                    //in color
-                } else {
-                    //in grayscale
-                }
+                const q = parseInt($("#papari-filter-q").val());
+                const N = parseInt($("#papari-filter-N").val());
+                const sigma = parseInt($("#papari-filter-sigma").val());
+                const isColor = $("#papari-grayscale").prop("checked");
+                imageproc.papari(inputImage, outputImage, q, N, sigma, isColor);
+                
                 break;
 
         }
