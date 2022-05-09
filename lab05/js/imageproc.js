@@ -1,4 +1,4 @@
-(function(imageproc) {
+(function (imageproc) {
     "use strict";
 
     var input, output;
@@ -9,10 +9,10 @@
     /*
      * Init the module and update the input image
      */
-    imageproc.init = function(inputCanvasId,
-                              outputCanvasId,
-                              inputImageId) {
-        input  = $("#" + inputCanvasId).get(0).getContext("2d");
+    imageproc.init = function (inputCanvasId,
+        outputCanvasId,
+        inputImageId) {
+        input = $("#" + inputCanvasId).get(0).getContext("2d");
         output = $("#" + outputCanvasId).get(0).getContext("2d");
 
         imageSelector = $("#" + inputImageId);
@@ -22,34 +22,34 @@
     /*
      * Update the input image canvas
      */
-    imageproc.updateInputImage = function(fileurl) {
+    imageproc.updateInputImage = function (fileurl) {
         var image = new Image();
         image.onload = function () {
             input.drawImage(image, 0, 0);
         }
         //image.src = "images/" + imageSelector.val();
-		
-		if(fileurl){
-			image.src = fileurl;
-			console.log(image.src);
-		}else{
-			image.src = "images/" + imageSelector.val();
-		}
+
+        if (fileurl) {
+            image.src = fileurl;
+            console.log(image.src);
+        } else {
+            image.src = "images/" + imageSelector.val();
+        }
     }
 
     /*
      * Apply an image processing operation to an input image and
      * then put the output image in the output canvas
      */
-    imageproc.apply = function() {
+    imageproc.apply = function () {
         // Get the input image and create the output image buffer
         var inputImage = input.getImageData(0, 0,
-                         input.canvas.clientWidth, input.canvas.clientHeight);
+            input.canvas.clientWidth, input.canvas.clientHeight);
         var outputImage = output.createImageData(input.canvas.clientWidth,
-                                                 input.canvas.clientHeight);
+            input.canvas.clientHeight);
 
         // Update the alpha values of the newly created image
-        for (var i = 0; i < outputImage.data.length; i+=4)
+        for (var i = 0; i < outputImage.data.length; i += 4)
             outputImage.data[i + 3] = 255;
 
         if (imageproc.operation) {
@@ -65,7 +65,7 @@
      * Convert RGB to HSV
      * Modified from https://gist.github.com/mjackson/5311256
      */
-    imageproc.fromRGBToHSV = function(r, g, b) {
+    imageproc.fromRGBToHSV = function (r, g, b) {
         r /= 255, g /= 255, b /= 255;
 
         var max = Math.max(r, g, b), min = Math.min(r, g, b);
@@ -86,14 +86,14 @@
             h *= 60;
         }
 
-        return {"h": h, "s": s, "v": v};
+        return { "h": h, "s": s, "v": v };
     }
 
     /*
      * Convert HSV to RGB
      * Modified from https://gist.github.com/mjackson/5311256
      */
-    imageproc.fromHSVToRGB = function(h, s, v) {
+    imageproc.fromHSVToRGB = function (h, s, v) {
         var r, g, b;
 
         var i = Math.floor(h / 60.0);
@@ -111,9 +111,11 @@
             case 5: r = v, g = p, b = q; break;
         }
 
-        return {"r": Math.round(r * 255),
-                "g": Math.round(g * 255),
-                "b": Math.round(b * 255)};
+        return {
+            "r": Math.round(r * 255),
+            "g": Math.round(g * 255),
+            "b": Math.round(b * 255)
+        };
     }
 
     /*
@@ -121,16 +123,16 @@
      * 
      * The parameter border can be either "extend" (default) and "wrap"
      */
-    imageproc.getPixel = function(imageData, x, y, border) {
+    imageproc.getPixel = function (imageData, x, y, border) {
         // Handle the boundary cases
         if (x < 0)
-            x = (border=="wrap")? imageData.width + (x % imageData.width) : 0;
+            x = (border == "wrap") ? imageData.width + (x % imageData.width) : 0;
         if (x >= imageData.width)
-            x = (border=="wrap")? x % imageData.width : imageData.width - 1;
+            x = (border == "wrap") ? x % imageData.width : imageData.width - 1;
         if (y < 0)
-            y = (border=="wrap")? imageData.height + (y % imageData.height) : 0;
+            y = (border == "wrap") ? imageData.height + (y % imageData.height) : 0;
         if (y >= imageData.height)
-            y = (border=="wrap")? y % imageData.height : imageData.height - 1;
+            y = (border == "wrap") ? y % imageData.height : imageData.height - 1;
 
         var i = (x + y * imageData.width) * 4;
         return {
@@ -144,7 +146,7 @@
     /*
      * Get an empty buffer of the same size as the image dat
      */
-    imageproc.createBuffer = function(imageData) {
+    imageproc.createBuffer = function (imageData) {
         // Create the buffer
         var buffer = {
             width: imageData.width,
@@ -153,8 +155,8 @@
         };
 
         // Initialize the buffer
-        for (var i = 0; i < imageData.data.length; i+=4) {
-            buffer.data[i]     = 0;
+        for (var i = 0; i < imageData.data.length; i += 4) {
+            buffer.data[i] = 0;
             buffer.data[i + 1] = 0;
             buffer.data[i + 2] = 0;
             buffer.data[i + 3] = 255;
@@ -166,17 +168,17 @@
     /*
      * Copy a source data to an destination data
      */
-    imageproc.copyImageData = function(src, dest) {
+    imageproc.copyImageData = function (src, dest) {
         if (src.data.length != dest.data.length)
             return;
 
         // Copy the data
-        for (var i = 0; i < src.data.length; i+=4) {
-            dest.data[i]     = src.data[i];
+        for (var i = 0; i < src.data.length; i += 4) {
+            dest.data[i] = src.data[i];
             dest.data[i + 1] = src.data[i + 1];
             dest.data[i + 2] = src.data[i + 2];
             dest.data[i + 3] = src.data[i + 3];
         }
     }
- 
+
 }(window.imageproc = window.imageproc || {}));
