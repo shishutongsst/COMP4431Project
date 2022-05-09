@@ -1,4 +1,4 @@
-(function(imageproc) {
+(function (imageproc) {
     "use strict";
 
     /*
@@ -75,37 +75,37 @@
                 if ($("#kuwahara-input").val() == "processed")
                     inputImage = processedImage;
                 var size = parseInt($("#kuwahara-filter-size").val());
-				//var type = $("#kuwahara-filter-type").val();
-				imageproc.kuwahara(inputImage, outputImage, size);   
-			break;
-			
-			case "tomita":
-				if ($("#tomita-input").val() == "processed")
+                //var type = $("#kuwahara-filter-type").val();
+                imageproc.kuwahara(inputImage, outputImage, size);
+                break;
+
+            case "tomita":
+                if ($("#tomita-input").val() == "processed")
                     inputImage = processedImage;
                 var size = parseInt($("#tomita-filter-size").val());
-				imageproc.tomita(inputImage, outputImage, size);
-			break;
-			
-			case "nagao":
-				if ($("#nagao-input").val() == "processed")
+                imageproc.tomita(inputImage, outputImage, size);
+                break;
+
+            case "nagao":
+                if ($("#nagao-input").val() == "processed")
                     inputImage = processedImage;
-				imageproc.nagao(inputImage, outputImage);
-			break;
-			
-			case "papari":
-				if ($("#papari-input").val() == "processed")
+                imageproc.nagao(inputImage, outputImage);
+                break;
+
+            case "papari":
+                if ($("#papari-input").val() == "processed")
                     inputImage = processedImage;
                 var q = parseInt($("#papari-filter-q").val());
-				var N = parseInt($("#papari-filter-N").val());
-				var sigma = parseInt($("#papari-filter-sigma").val());
-				imageproc.papari(inputImage, outputImage, q, N, sigma);
-				if ($("#papari-grayscale").prop("checked")) {
-					//in color
-				}else{
-					//in grayscale
-				}
-			break;
-			
+                var N = parseInt($("#papari-filter-N").val());
+                var sigma = parseInt($("#papari-filter-sigma").val());
+                imageproc.papari(inputImage, outputImage, q, N, sigma);
+                if ($("#papari-grayscale").prop("checked")) {
+                    //in color
+                } else {
+                    //in grayscale
+                }
+                break;
+
         }
     }
 
@@ -119,7 +119,7 @@
                 if ($("#dither-input").val() == "processed")
                     inputImage = processedImage;
                 imageproc.dither(inputImage, outputImage,
-                                 $("#dither-matrix-type").val());
+                    $("#dither-matrix-type").val());
                 break;
         }
     }
@@ -151,16 +151,16 @@
 
                 // Flip edge values
                 if ($("#sobel-flip").prop("checked")) {
-                    for (var i = 0; i < outputImage.data.length; i+=4) {
+                    for (var i = 0; i < outputImage.data.length; i += 4) {
                         if (outputImage.data[i] == 0) {
-                            outputImage.data[i]     =
-                            outputImage.data[i + 1] =
-                            outputImage.data[i + 2] = 255;
+                            outputImage.data[i] =
+                                outputImage.data[i + 1] =
+                                outputImage.data[i + 2] = 255;
                         }
                         else {
-                            outputImage.data[i]     =
-                            outputImage.data[i + 1] =
-                            outputImage.data[i + 2] = 0;
+                            outputImage.data[i] =
+                                outputImage.data[i + 1] =
+                                outputImage.data[i + 2] = 0;
                         }
                     }
                 }
@@ -173,7 +173,7 @@
      * Operations are applied from the base layer to the outline layer. These
      * layers are combined appropriately when required.
      */
-    imageproc.operation = function(inputImage, outputImage) {
+    imageproc.operation = function (inputImage, outputImage) {
         // Apply the basic processing operations
         var processedImage = inputImage;
         if (currentBasicOp != "no-op") {
@@ -202,13 +202,13 @@
                  * TODO: You need to show the base layer (baseLayer) for
                  * the white pixels (transparent)
                  */
-				for(var i = 0; i < shadeLayer.data.length; i+=4){
-					 if((shadeLayer.data[i] + shadeLayer.data[i+1] + shadeLayer.data[i+2])/3 == 255){
-						 shadeLayer.data[i] = baseLayer.data[i];
-						 shadeLayer.data[i+1] = baseLayer.data[i+1];
-						 shadeLayer.data[i+2] = baseLayer.data[i+2];
-					 }
-				}
+                for (var i = 0; i < shadeLayer.data.length; i += 4) {
+                    if ((shadeLayer.data[i] + shadeLayer.data[i + 1] + shadeLayer.data[i + 2]) / 3 == 255) {
+                        shadeLayer.data[i] = baseLayer.data[i];
+                        shadeLayer.data[i + 1] = baseLayer.data[i + 1];
+                        shadeLayer.data[i + 2] = baseLayer.data[i + 2];
+                    }
+                }
 
             }
         }
@@ -227,24 +227,24 @@
                  * TODO: You need to show the shade layer (shadeLayer) for
                  * the non-edge pixels (transparent)
                  */
-				 if($("#sobel-flip").prop("checked")){
-					 //checked: white background
-					for(var i = 0; i < outlineLayer.data.length; i+=4){
-					 if((outlineLayer.data[i] + outlineLayer.data[i+1] + outlineLayer.data[i+2])/3 == 255){
-						 outlineLayer.data[i] = shadeLayer.data[i];
-						 outlineLayer.data[i+1] = shadeLayer.data[i+1];
-						 outlineLayer.data[i+2] = shadeLayer.data[i+2];
-					 }
-					}
-				 }else{
-					for(var i = 0; i < outlineLayer.data.length; i+=4){
-					 if((outlineLayer.data[i] + outlineLayer.data[i+1] + outlineLayer.data[i+2])/3 == 0){
-						 outlineLayer.data[i] = shadeLayer.data[i];
-						 outlineLayer.data[i+1] = shadeLayer.data[i+1];
-						 outlineLayer.data[i+2] = shadeLayer.data[i+2];
-					 }
-					}					 
-				 }
+                if ($("#sobel-flip").prop("checked")) {
+                    //checked: white background
+                    for (var i = 0; i < outlineLayer.data.length; i += 4) {
+                        if ((outlineLayer.data[i] + outlineLayer.data[i + 1] + outlineLayer.data[i + 2]) / 3 == 255) {
+                            outlineLayer.data[i] = shadeLayer.data[i];
+                            outlineLayer.data[i + 1] = shadeLayer.data[i + 1];
+                            outlineLayer.data[i + 2] = shadeLayer.data[i + 2];
+                        }
+                    }
+                } else {
+                    for (var i = 0; i < outlineLayer.data.length; i += 4) {
+                        if ((outlineLayer.data[i] + outlineLayer.data[i + 1] + outlineLayer.data[i + 2]) / 3 == 0) {
+                            outlineLayer.data[i] = shadeLayer.data[i];
+                            outlineLayer.data[i + 1] = shadeLayer.data[i + 1];
+                            outlineLayer.data[i + 2] = shadeLayer.data[i + 2];
+                        }
+                    }
+                }
 
             }
         }
@@ -252,5 +252,5 @@
         // Show the accumulated image
         imageproc.copyImageData(outlineLayer, outputImage);
     }
- 
+
 }(window.imageproc = window.imageproc || {}));
