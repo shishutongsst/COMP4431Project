@@ -1,24 +1,50 @@
 <!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="bootstrap/bootstrap.min.css">
     <link rel="stylesheet" href="bootstrap/bootstrap4-toggle.min.css">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+        integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
 
     <title>COMP4431 Multimedia Computing - Image Processor</title>
 
     <style>
-    body { min-width: 1020px; }
-    .main { min-width: 1020px; width: 1020px; margin-top: 10px; }
-    .container-fluid { margin-top: 10px; }
-    .nav-item { width: 25%; }
-    .nav-tabs, .nav-tabs .dropdown-item { font-size: 14px; }
-    .toggle { height: 38px !important; }
-    canvas { border: 1px solid black; }
+        body {
+            min-width: 1020px;
+        }
+
+        .main {
+            min-width: 1020px;
+            width: 1020px;
+            margin-top: 10px;
+        }
+
+        .container-fluid {
+            margin-top: 10px;
+        }
+
+        .nav-item {
+            width: 25%;
+        }
+
+        .nav-tabs,
+        .nav-tabs .dropdown-item {
+            font-size: 14px;
+        }
+
+        .toggle {
+            height: 38px !important;
+        }
+
+        canvas {
+            border: 1px solid black;
+        }
     </style>
 </head>
+
 <body>
     <nav class="navbar navbar-dark bg-dark navbar-fixed-top">
         <div class="navbar-header">
@@ -58,7 +84,9 @@
             </div>
         </div>
 
-        <div class="row"><div class="col-12">&nbsp;</div></div>
+        <div class="row">
+            <div class="col-12">&nbsp;</div>
+        </div>
 
         <div class="row">
             <div class="col-12">
@@ -67,8 +95,9 @@
 
                     <!-- Basic processing -->
                     <li class="nav-item dropdown" id="basic-dropdown">
-                        <a class="nav-link dropdown-toggle active" data-toggle="dropdown" href="#">Basic processing<br><span class="title"><i>Do Nothing</i></span>
-                        <span class="caret"></span></a>
+                        <a class="nav-link dropdown-toggle active" data-toggle="dropdown" href="#">Basic
+                            processing<br><span class="title"><i>Do Nothing</i></span>
+                            <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="#no-op"><i>Do Nothing</i></a></li>
                             <li><a class="dropdown-item" href="#negation">Negation</a></li>
@@ -84,22 +113,24 @@
 
                     <!-- Base layer -->
                     <li class="nav-item dropdown" id="base-dropdown">
-                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Base Layer<br><span class="title"><i>Do Nothing</i></span>
-                        <span class="caret"></span></a>
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Base Layer<br><span
+                                class="title"><i>Do Nothing</i></span>
+                            <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="#no-op"><i>Do Nothing</i></a></li>
                             <li><a class="dropdown-item" href="#blur">Blur</a></li>
                             <li><a class="dropdown-item" href="#kuwahara">Kuwahara Filter</a></li>
-							<li><a class="dropdown-item" href="#tomita">Tomita-Tsuji Filter</a></li>
-							<li><a class="dropdown-item" href="#nagao">Nagao-Matsuyama Filter</a></li>
-							<li><a class="dropdown-item" href="#papari">Papari Filter</a></li>
+                            <li><a class="dropdown-item" href="#tomita">Tomita-Tsuji Filter</a></li>
+                            <li><a class="dropdown-item" href="#nagao">Nagao-Matsuyama Filter</a></li>
+                            <li><a class="dropdown-item" href="#papari">Papari Filter</a></li>
                         </ul>
                     </li>
 
                     <!-- Shade layer -->
                     <li class="nav-item dropdown" id="shade-dropdown">
-                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Shade Layer<br><span class="title"><i>Do Nothing</i></span>
-                        <span class="caret"></span></a>
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Shade Layer<br><span
+                                class="title"><i>Do Nothing</i></span>
+                            <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="#no-op"><i>Do Nothing</i></a></li>
                             <li><a class="dropdown-item" href="#dither">Ordered Dithering</a></li>
@@ -108,8 +139,9 @@
 
                     <!-- Outline layer -->
                     <li class="nav-item dropdown" id="outline-dropdown">
-                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Outline Layer<br><span class="title"><i>Do Nothing</i></span>
-                        <span class="caret"></span></a>
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Outline Layer<br><span
+                                class="title"><i>Do Nothing</i></span>
+                            <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="#no-op"><i>Do Nothing</i></a></li>
                             <li><a class="dropdown-item" href="#sobel">Sobel Edge</a></li>
@@ -150,10 +182,12 @@
                                     <label for="brightness-offset">Brightness offset:</label>
                                     <div class="input-group">
                                         <div class="row flex-fill align-items-center mx-0 px-2 border rounded-left">
-                                            <input class="custom-range" id="brightness-offset" type="range" value="0" min="-255" max="255" step="1"
-                                             oninput="$(this).parents('.input-group').find('.input-group-text').html($(this).val())">
+                                            <input class="custom-range" id="brightness-offset" type="range" value="0"
+                                                min="-255" max="255" step="1"
+                                                oninput="$(this).parents('.input-group').find('.input-group-text').html($(this).val())">
                                         </div>
-                                        <div class="input-group-append"><span class="input-group-text d-block" style="width: 4em">0</span></div>
+                                        <div class="input-group-append"><span class="input-group-text d-block"
+                                                style="width: 4em">0</span></div>
                                     </div>
                                 </div>
                             </div>
@@ -168,10 +202,12 @@
                                     <label for="contrast-factor">Contrast factor:</label>
                                     <div class="input-group">
                                         <div class="row flex-fill align-items-center mx-0 px-2 border rounded-left">
-                                            <input class="custom-range" id="contrast-factor" type="range" value="1" min="0" max="5" step="0.1"
-                                             oninput="$(this).parents('.input-group').find('.input-group-text').html($(this).val())">
+                                            <input class="custom-range" id="contrast-factor" type="range" value="1"
+                                                min="0" max="5" step="0.1"
+                                                oninput="$(this).parents('.input-group').find('.input-group-text').html($(this).val())">
                                         </div>
-                                        <div class="input-group-append"><span class="input-group-text d-block" style="width: 3.5em">1</span></div>
+                                        <div class="input-group-append"><span class="input-group-text d-block"
+                                                style="width: 3.5em">1</span></div>
                                     </div>
                                 </div>
                             </div>
@@ -186,30 +222,36 @@
                                     <label for="posterization-red-bits">Red bits (to keep):</label>
                                     <div class="input-group">
                                         <div class="row flex-fill align-items-center mx-0 px-2 border rounded-left">
-                                            <input class="custom-range" id="posterization-red-bits" type="range" value="2" min="1" max="8" step="1"
-                                             oninput="$(this).parents('.input-group').find('.input-group-text').html($(this).val() + ' bits')">
+                                            <input class="custom-range" id="posterization-red-bits" type="range"
+                                                value="2" min="1" max="8" step="1"
+                                                oninput="$(this).parents('.input-group').find('.input-group-text').html($(this).val() + ' bits')">
                                         </div>
-                                        <div class="input-group-append"><span class="input-group-text">2 bits</span></div>
+                                        <div class="input-group-append"><span class="input-group-text">2 bits</span>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-3">
                                     <label for="posterization-green-bits">Green bits (to keep):</label>
                                     <div class="input-group">
                                         <div class="row flex-fill align-items-center mx-0 px-2 border rounded-left">
-                                            <input class="custom-range" id="posterization-green-bits" type="range" value="2" min="1" max="8" step="1"
-                                             oninput="$(this).parents('.input-group').find('.input-group-text').html($(this).val() + ' bits')">
+                                            <input class="custom-range" id="posterization-green-bits" type="range"
+                                                value="2" min="1" max="8" step="1"
+                                                oninput="$(this).parents('.input-group').find('.input-group-text').html($(this).val() + ' bits')">
                                         </div>
-                                        <div class="input-group-append"><span class="input-group-text">2 bits</span></div>
+                                        <div class="input-group-append"><span class="input-group-text">2 bits</span>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-3">
                                     <label for="posterization-blue-bits">Blue bits (to keep):</label>
                                     <div class="input-group">
                                         <div class="row flex-fill align-items-center mx-0 px-2 border rounded-left">
-                                            <input class="custom-range" id="posterization-blue-bits" type="range" value="2" min="1" max="8" step="1"
-                                             oninput="$(this).parents('.input-group').find('.input-group-text').html($(this).val() + ' bits')">
+                                            <input class="custom-range" id="posterization-blue-bits" type="range"
+                                                value="2" min="1" max="8" step="1"
+                                                oninput="$(this).parents('.input-group').find('.input-group-text').html($(this).val() + ' bits')">
                                         </div>
-                                        <div class="input-group-append"><span class="input-group-text">2 bits</span></div>
+                                        <div class="input-group-append"><span class="input-group-text">2 bits</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -224,10 +266,12 @@
                                     <label for="threshold-value">Threshold value:</label>
                                     <div class="input-group">
                                         <div class="row flex-fill align-items-center mx-0 px-2 border rounded-left">
-                                            <input class="custom-range" id="threshold-value" type="range" value="128" min="1" max="255" step="1"
-                                             oninput="$(this).parents('.input-group').find('.input-group-text').html($(this).val())">
+                                            <input class="custom-range" id="threshold-value" type="range" value="128"
+                                                min="1" max="255" step="1"
+                                                oninput="$(this).parents('.input-group').find('.input-group-text').html($(this).val())">
                                         </div>
-                                        <div class="input-group-append"><span class="input-group-text d-block" style="width: 3.5em">128</span></div>
+                                        <div class="input-group-append"><span class="input-group-text d-block"
+                                                style="width: 3.5em">128</span></div>
                                     </div>
                                 </div>
                             </div>
@@ -242,10 +286,12 @@
                                     <label for="comic-color-saturation">Saturation multiplier:</label>
                                     <div class="input-group">
                                         <div class="row flex-fill align-items-center mx-0 px-2 border rounded-left">
-                                            <input class="custom-range" id="comic-color-saturation" type="range" value="2" min="1" max="8" step="1"
-                                             oninput="$(this).parents('.input-group').find('.input-group-text > span').html($(this).val())">
+                                            <input class="custom-range" id="comic-color-saturation" type="range"
+                                                value="2" min="1" max="8" step="1"
+                                                oninput="$(this).parents('.input-group').find('.input-group-text > span').html($(this).val())">
                                         </div>
-                                        <div class="input-group-append"><span class="input-group-text">&times; <span>2</span></span></div>
+                                        <div class="input-group-append"><span class="input-group-text">&times;
+                                                <span>2</span></span></div>
                                     </div>
                                 </div>
                             </div>
@@ -267,10 +313,12 @@
                                     <label for="auto-contrast-percentage">Percentage of pixels to ignore:</label>
                                     <div class="input-group">
                                         <div class="row flex-fill align-items-center mx-0 px-2 border rounded-left">
-                                            <input class="custom-range" id="auto-contrast-percentage" type="range" value="5" min="0" max="50" step="1"
-                                             oninput="$(this).parents('.input-group').find('.input-group-text > span').html($(this).val())">
+                                            <input class="custom-range" id="auto-contrast-percentage" type="range"
+                                                value="5" min="0" max="50" step="1"
+                                                oninput="$(this).parents('.input-group').find('.input-group-text > span').html($(this).val())">
                                         </div>
-                                        <div class="input-group-append"><span class="input-group-text d-block" style="width: 4em"><span>5</span>%</span></div>
+                                        <div class="input-group-append"><span class="input-group-text d-block"
+                                                style="width: 4em"><span>5</span>%</span></div>
                                     </div>
                                 </div>
                             </div>
@@ -292,10 +340,12 @@
                                     <label for="blur-kernel-size">Kernel size:</label>
                                     <div class="input-group">
                                         <div class="row flex-fill align-items-center mx-0 px-2 border rounded-left">
-                                            <input class="custom-range" id="blur-kernel-size" type="range" value="3" min="3" max="9" step="2"
-                                             oninput="$(this).parents('.input-group').find('.input-group-text > span').html($(this).val())">
+                                            <input class="custom-range" id="blur-kernel-size" type="range" value="3"
+                                                min="3" max="9" step="2"
+                                                oninput="$(this).parents('.input-group').find('.input-group-text > span').html($(this).val())">
                                         </div>
-                                        <div class="input-group-append"><span class="input-group-text"><span>3</span> &times; <span>3</span></span></div>
+                                        <div class="input-group-append"><span class="input-group-text"><span>3</span>
+                                                &times; <span>3</span></span></div>
                                     </div>
                                 </div>
                             </div>
@@ -313,32 +363,34 @@
                                         <option value="processed">Processed Image</option>
                                     </select>
                                 </div>
-								<div class="col-4">
+                                <div class="col-4">
                                     <label for="kuwahara-filter-type">Filter type:</label>
                                     <select class="custom-select" id="kuwahara-filter-type">
-										<option value="basic">Basic</option>
+                                        <option value="basic">Basic</option>
                                         <option value="tomita">Tomita-Tsuji</option>
                                         <option value="nagao">Nagao-Matsuyama</option>
-										<option value="papari">Papari</option>
+                                        <option value="papari">Papari</option>
                                     </select>
-                                </div>                                
-								<div class="col-5">
+                                </div>
+                                <div class="col-5">
                                     <label for="kuwahara-filter-size">Filter size:</label>
                                     <div class="input-group">
                                         <div class="row flex-fill align-items-center mx-0 px-2 border rounded-left">
-                                            <input class="custom-range" id="kuwahara-filter-size" type="range" value="5" min="5" max="13" step="4"
-                                             oninput="$(this).parents('.input-group').find('.input-group-text > span').html($(this).val())">
+                                            <input class="custom-range" id="kuwahara-filter-size" type="range" value="5"
+                                                min="5" max="13" step="4"
+                                                oninput="$(this).parents('.input-group').find('.input-group-text > span').html($(this).val())">
                                         </div>
                                         <div class="input-group-append">
-                                            <span class="input-group-text d-block" style="width: 5.5em"><span>5</span> &times; <span>5</span></span>
+                                            <span class="input-group-text d-block" style="width: 5.5em"><span>5</span>
+                                                &times; <span>5</span></span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-					
-					<!-- Tomita filter -->
+
+                    <!-- Tomita filter -->
                     <div class="tab-pane" id="tomita">
                         <div class="container-fluid">
                             <div class="row">
@@ -348,16 +400,18 @@
                                         <option value="original">Original Image</option>
                                         <option value="processed">Processed Image</option>
                                     </select>
-                                </div>                             
-								<div class="col-4">
+                                </div>
+                                <div class="col-4">
                                     <label for="tomita-filter-size">Filter size:</label>
                                     <div class="input-group">
                                         <div class="row flex-fill align-items-center mx-0 px-2 border rounded-left">
-                                            <input class="custom-range" id="tomita-filter-size" type="range" value="5" min="5" max="13" step="4"
-                                             oninput="$(this).parents('.input-group').find('.input-group-text > span').html($(this).val())">
+                                            <input class="custom-range" id="tomita-filter-size" type="range" value="5"
+                                                min="5" max="13" step="4"
+                                                oninput="$(this).parents('.input-group').find('.input-group-text > span').html($(this).val())">
                                         </div>
                                         <div class="input-group-append">
-                                            <span class="input-group-text d-block" style="width: 5.5em"><span>5</span> &times; <span>5</span></span>
+                                            <span class="input-group-text d-block" style="width: 5.5em"><span>5</span>
+                                                &times; <span>5</span></span>
                                         </div>
                                     </div>
                                 </div>
@@ -365,7 +419,7 @@
                         </div>
                     </div>
 
-					<!-- Nagao filter -->
+                    <!-- Nagao filter -->
                     <div class="tab-pane" id="nagao">
                         <div class="container-fluid">
                             <div class="row">
@@ -375,12 +429,12 @@
                                         <option value="original">Original Image</option>
                                         <option value="processed">Processed Image</option>
                                     </select>
-                                </div>                             
+                                </div>
                             </div>
                         </div>
                     </div>
-					
-					<!-- Papari filter -->
+
+                    <!-- Papari filter -->
                     <div class="tab-pane" id="papari">
                         <div class="container-fluid">
                             <div class="row">
@@ -390,76 +444,83 @@
                                         <option value="original">Original Image</option>
                                         <option value="processed">Processed Image</option>
                                     </select>
-                                </div> 
-								<div class="col-6">
-									<label for="papari-import">Import:</label>
-									<div class="form-inline">
-										<input id = "fileupload" type = "file" accept = "image/png, image/jpg" />
-										<img src="" id="myImg" width="250" height"250" />
-										<script>
-										window.addEventListener('load', function(){
-											console.log("loaded");
-											document.querySelector('input[type="file"]').addEventListener('change', function(){
-												var img = document.getElementById("myImg");
-												img.src = URL.createObjectURL(this.files[0]);
-												console.log(img.src);
-												//img.onload = imgLoaded;
-												imageproc.updateInputImage(img.src);
-											});
-										});
-										</script>
-									</div>
-								</div>								
+                                </div>
+                                <div class="col-6">
+                                    <label for="papari-import">Import:</label>
+                                    <div class="form-inline">
+                                        <input id="fileupload" type="file" accept="image/png, image/jpg" />
+                                        <img src="" id="myImg" width="250" height"250" />
+                                        <script>
+                                            window.addEventListener('load', function () {
+                                                console.log("loaded");
+                                                document.querySelector('input[type="file"]').addEventListener('change', function () {
+                                                    var img = document.getElementById("myImg");
+                                                    img.src = URL.createObjectURL(this.files[0]);
+                                                    console.log(img.src);
+                                                    //img.onload = imgLoaded;
+                                                    imageproc.updateInputImage(img.src);
+                                                });
+                                            });
+                                        </script>
+                                    </div>
+                                </div>
                             </div>
-							<div class="row mt-2">                            
-								<div class="col-4">
+                            <div class="row mt-2">
+                                <div class="col-4">
                                     <label for="papari-filter-q">Filter q:</label>
                                     <div class="input-group">
                                         <div class="row flex-fill align-items-center mx-0 px-2 border rounded-left">
-                                            <input class="custom-range" id="papari-filter-q" type="range" value="5" min="5" max="13" step="4"
-                                             oninput="$(this).parents('.input-group').find('.input-group-text > span').html($(this).val())">
+                                            <input class="custom-range" id="papari-filter-q" type="range" value="5"
+                                                min="5" max="13" step="4"
+                                                oninput="$(this).parents('.input-group').find('.input-group-text > span').html($(this).val())">
                                         </div>
                                         <div class="input-group-append">
-                                            <span class="input-group-text d-block" style="width: 5.5em"><span>5</span> &times; <span>5</span></span>
+                                            <span class="input-group-text d-block" style="width: 5.5em"><span>5</span>
+                                                &times; <span>5</span></span>
                                         </div>
                                     </div>
                                 </div>
-								<div class="col-4">
+                                <div class="col-4">
                                     <label for="papari-filter-N">Filter N:</label>
                                     <div class="input-group">
                                         <div class="row flex-fill align-items-center mx-0 px-2 border rounded-left">
-                                            <input class="custom-range" id="papari-filter-N" type="range" value="5" min="5" max="13" step="4"
-                                             oninput="$(this).parents('.input-group').find('.input-group-text > span').html($(this).val())">
+                                            <input class="custom-range" id="papari-filter-N" type="range" value="5"
+                                                min="5" max="13" step="4"
+                                                oninput="$(this).parents('.input-group').find('.input-group-text > span').html($(this).val())">
                                         </div>
                                         <div class="input-group-append">
-                                            <span class="input-group-text d-block" style="width: 5.5em"><span>5</span> &times; <span>5</span></span>
+                                            <span class="input-group-text d-block" style="width: 5.5em"><span>5</span>
+                                                &times; <span>5</span></span>
                                         </div>
                                     </div>
                                 </div>
-								<div class="col-4">
+                                <div class="col-4">
                                     <label for="papari-filter-sigma">Filter Sigma:</label>
                                     <div class="input-group">
                                         <div class="row flex-fill align-items-center mx-0 px-2 border rounded-left">
-                                            <input class="custom-range" id="papari-filter-sigma" type="range" value="5" min="5" max="13" step="4"
-                                             oninput="$(this).parents('.input-group').find('.input-group-text > span').html($(this).val())">
+                                            <input class="custom-range" id="papari-filter-sigma" type="range" value="5"
+                                                min="5" max="13" step="4"
+                                                oninput="$(this).parents('.input-group').find('.input-group-text > span').html($(this).val())">
                                         </div>
                                         <div class="input-group-append">
-                                            <span class="input-group-text d-block" style="width: 5.5em"><span>5</span> &times; <span>5</span></span>
+                                            <span class="input-group-text d-block" style="width: 5.5em"><span>5</span>
+                                                &times; <span>5</span></span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-							<div class="row mt-2">
-								<div class="col-6">
+                            <div class="row mt-2">
+                                <div class="col-6">
                                     <label for="papari-grayscale">Indicate the image is in Color or Not:</label>
                                     <div class="input-group">
-                                        <input class="form-control toggle-control" id="papari-grayscale" type="checkbox" />
+                                        <input class="form-control toggle-control" id="papari-grayscale"
+                                            type="checkbox" />
                                     </div>
                                 </div>
-							</div>
+                            </div>
                         </div>
                     </div>
-					
+
 
                     <!-- Ordered dithering -->
                     <div class="tab-pane" id="dither">
@@ -484,7 +545,8 @@
                                 <div class="col-3">
                                     <label for="dither-transparent">White shown as transparent:</label>
                                     <div class="input-group">
-                                        <input class="form-control toggle-control" id="dither-transparent" type="checkbox" />
+                                        <input class="form-control toggle-control" id="dither-transparent"
+                                            type="checkbox" />
                                     </div>
                                 </div>
                             </div>
@@ -506,10 +568,12 @@
                                     <label for="sobel-threshold">Threshold value:</label>
                                     <div class="input-group">
                                         <div class="row flex-fill align-items-center mx-0 px-2 border rounded-left">
-                                            <input class="custom-range" id="sobel-threshold" type="range" value="128" min="0" max="255" step="1"
-                                             oninput="$(this).parents('.input-group').find('.input-group-text').html($(this).val())">
+                                            <input class="custom-range" id="sobel-threshold" type="range" value="128"
+                                                min="0" max="255" step="1"
+                                                oninput="$(this).parents('.input-group').find('.input-group-text').html($(this).val())">
                                         </div>
-                                        <div class="input-group-append"><span class="input-group-text d-block" style="width: 3.5em">128</span></div>
+                                        <div class="input-group-append"><span class="input-group-text d-block"
+                                                style="width: 3.5em">128</span></div>
                                     </div>
                                 </div>
                                 <div class="col-3">
@@ -522,10 +586,12 @@
                                     <label for="sobel-blur-kernel-size">Blur kernel size:</label>
                                     <div class="input-group">
                                         <div class="row flex-fill align-items-center mx-0 px-2 border rounded-left">
-                                            <input class="custom-range" id="sobel-blur-kernel-size" type="range" value="3" min="3" max="9" step="2"
-                                             oninput="$(this).parents('.input-group').find('.input-group-text > span').html($(this).val())">
+                                            <input class="custom-range" id="sobel-blur-kernel-size" type="range"
+                                                value="3" min="3" max="9" step="2"
+                                                oninput="$(this).parents('.input-group').find('.input-group-text > span').html($(this).val())">
                                         </div>
-                                        <div class="input-group-append"><span class="input-group-text"><span>3</span> &times; <span>3</span></span></div>
+                                        <div class="input-group-append"><span class="input-group-text"><span>3</span>
+                                                &times; <span>3</span></span></div>
                                     </div>
                                 </div>
                             </div>
@@ -540,7 +606,8 @@
                                 <div class="col-6">
                                     <label for="sobel-transparent">Non-edge shown as transparent:</label>
                                     <div class="input-group">
-                                        <input class="form-control toggle-control" id="sobel-transparent" type="checkbox" />
+                                        <input class="form-control toggle-control" id="sobel-transparent"
+                                            type="checkbox" />
                                     </div>
                                 </div>
                             </div>
@@ -563,12 +630,13 @@
     <script src="js/comic.js"></script>
     <script src="js/blur.js"></script>
     <script src="js/kuwahara.js"></script>
-	<script src="js/tomita.js"></script>
-	<script src="js/nagao.js"></script>
-	<script src="js/papari.js"></script>
+    <script src="js/tomita.js"></script>
+    <script src="js/nagao.js"></script>
+    <script src="js/papari.js"></script>
     <script src="js/dither.js"></script>
     <script src="js/outline.js"></script>
     <script src="js/main.js"></script>
     <script src="js/layers.js"></script>
 </body>
+
 </html>
