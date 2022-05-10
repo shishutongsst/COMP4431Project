@@ -92,7 +92,18 @@
                     }
                 }
             }
-            return accumulator - Mi(x_center, y_center, N, i, sigma, filterSize) * Mi(x_center, y_center, N, i, sigma, filterSize);
+            return accumulator - Mi(x_center, y_center, N, i, sigma, filterSize)*Mi(x_center, y_center, N, i, sigma, filterSize);
+        }
+
+        //Internal function to calculate the output
+        function outputPhi(x_center, y_center, N, i, sigma, filterSize, q) {
+            var numerator = 0;
+            var denominator = 0;
+            for (var i = 1; i <= N; i++) {
+                numerator += Mi(x_center, y_center, N, i, sigma, filterSize) * Math.pow(Si_sqr(x_center, y_center, N, i, sigma, filterSize), -q);
+                denominator += Math.pow(Si_sqr(x_center, y_center, N, i, sigma, filterSize), -q);
+            }
+            return numerator/denominator;
         }
 
         for (var y = 0; y < inputData.height; y++) {
