@@ -83,8 +83,20 @@
             return accumulator;
         }
 
-        function Si(x_center, y_center, N, i, sigma, filterSize) {
-            
+        function Si_sqr(x_center, y_center, N, i, sigma, filterSize) {
+            var accumulator = 0;
+            //Convolve the entire image
+            for (var y = 0; y < inputData.height; y++) {
+                for (var x = 0; x < inputData.width; x++) {
+                    if (Math.hypot(x-x_center, y-y_center) <= filterSize/2) {
+                        var arrayCount = (x + y * inputData.width) * 4;
+                        var GrayValue = 0.299 * inputData.data[arrayCount] + 0.587 * inputData.data[arrayCount+1] + 0.114 * inputData.data[arrayCount+2];
+                        var weight = Wi(x_center, y_center, x, y, N, i, sigma);
+                        accumulator += GrayValue*GrayValue*weight;
+                    }
+                }
+            }
+            return accumulator - Mi(x_center, y_center, N, i, sigma, filterSize)*Mi(x_center, y_center, N, i, sigma, filterSize);
         }
 
         function regionStat(x, y) {
