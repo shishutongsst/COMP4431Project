@@ -10,7 +10,7 @@
         /*
          * An internal function to calculate the Gaussian kernel
          */
-        function Gaussian(x, y, sigma) { //x y refer to thr distance
+        function Gaussian(x, y, sigma) { //x y refer to the distance
             return Math.exp(-(x * x + y * y) / (2 * sigma * sigma)) / (2 * Math.PI * sigma * sigma);
         }
 
