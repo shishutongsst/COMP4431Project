@@ -14,12 +14,12 @@
         var shiftSize = (size - 1) / 4;
         var sideLength = (size - 1) / 2 + 1;
         var regionSize = sideLength * sideLength;
-        
+
         /*
          * An internal function to calculate the Gaussian kernel
          */
         function Gaussian(x, y, sigma) { //x y refer to thr distance
-            return Math.exp(-(x*x+y*y)/(2*sigma*sigma))/(2*Math.PI*sigma*sigma);
+            return Math.exp(-(x * x + y * y) / (2 * sigma * sigma)) / (2 * Math.PI * sigma * sigma);
         }
 
         function Ui(x1, y1, x2, y2, N, i) {
@@ -48,72 +48,26 @@
                 }
             }
         }
-        /*//An internal function to cauculate Vi
+        /*
+        //An internal function to cauculate Vi
         function V(x1, y1, x2, y2, N, i, sigma) {
             var gaussian = Gaussian(x1-x2, y1-y2, sigma/4);
             var Ui = U(x1, y1, x2, y2, N, i);
             return gaussian * Ui;
-        }*/
-        //An internal function to calculate weight wi
-        
-        function Wi(x1, y1, x2, y2, N, i, sigma) {
-            var Ui = U(x1, y1, x2, y2, N, i);
-            var gaussian = Gaussian(x1-x2, y1-y2, sigma);
-            return gaussian * Ui;
         }
+        */
+       
+        //An internal function to calculate weight wi
 
-        function regionStat(x, y) {
-            // Find the mean colour and brightness
-            var meanR = 0, meanG = 0, meanB = 0;
-            var meanValue = 0;
-            for (var j = -shiftSize; j <= shiftSize; j++) {
-                for (var i = -shiftSize; i <= shiftSize; i++) {
-                    var pixel = imageproc.getPixel(inputData, x + i, y + j);
-
-                    // For the mean colour
-                    meanR += pixel.r;
-                    meanG += pixel.g;
-                    meanB += pixel.b;
-
-                    // For the mean brightness
-                    meanValue += (pixel.r + pixel.g + pixel.b) / 3;
-                }
-            }
-            meanR /= regionSize;
-            meanG /= regionSize;
-            meanB /= regionSize;
-            meanValue /= regionSize;
-
-            // Find the variance
-            var variance = 0;
-            for (var j = -shiftSize; j <= shiftSize; j++) {
-                for (var i = -shiftSize; i <= shiftSize; i++) {
-                    var pixel = imageproc.getPixel(inputData, x + i, y + j);
-                    var value = (pixel.r + pixel.g + pixel.b) / 3;
-
-                    variance += Math.pow(value - meanValue, 2);
-                }
-            }
-            variance /= regionSize;
-
-            // Return the mean and variance as an object
-            return {
-                mean: { r: meanR, g: meanG, b: meanB },
-                variance: variance
-            };
+        function Wi(x1, y1, x2, y2, N, i, sigma) {
+            const Ui = Ui(x1, y1, x2, y2, N, i);
+            const gaussian = Gaussian(x2 - x1, y2 - y1, sigma);
+            return gaussian * Ui;
         }
 
         for (var y = 0; y < inputData.height; y++) {
             for (var x = 0; x < inputData.width; x++) {
-                // Find the statistics of the four sub-regions
-                var regionA = regionStat(x - shiftSize, y - shiftSize, inputData);
-                var regionB = regionStat(x + shiftSize, y - shiftSize, inputData);
-                var regionC = regionStat(x - shiftSize, y + shiftSize, inputData);
-                var regionD = regionStat(x + shiftSize, y + shiftSize, inputData);
 
-                // Get the minimum variance value
-                var minV = Math.min(regionA.variance, regionB.variance,
-                    regionC.variance, regionD.variance);
 
                 var i = (x + y * inputData.width) * 4;
 
