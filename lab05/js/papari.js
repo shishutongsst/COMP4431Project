@@ -91,7 +91,7 @@
 							const weight = Wi(x_center, y_center, x, y, N, i, sigma);
 							accumulator += grayValue * weight;
 						}
-=======
+
             const halfFilterSize = Math.floor(filterSize / 2);
             const yMin = Math.max(0, y_center - halfFilterSize);
             const yMax = Math.min(inputData.height - 1, y_center + halfFilterSize);
@@ -104,7 +104,7 @@
                         const grayValue = rgb2gray(inputData.data[index], inputData.data[index + 1], inputData.data[index + 2]);
                         const weight = Wi(x_center, y_center, x, y, N, i, sigma);
                         accumulator += grayValue * weight;
->>>>>>> da065445561e5b576921b87460370d45c6dfe0f5
+
                     }
                 }
             }
@@ -120,7 +120,7 @@
 			let gAccumulator = 0;
 			let bAccumulator = 0;
             //Convolve the filter size
-<<<<<<< HEAD
+
             const yMin = Math.max(0, y_center - filterSize / 2);
             const yMax = Math.min(inputData.height - 1, y_center + filterSize / 2);
             const xMin = Math.max(0, x_center - filterSize / 2);
@@ -143,7 +143,7 @@
 							const weight = Wi(x_center, y_center, x, y, N, i, sigma);
 							accumulator += grayValue * grayValue * weight;
 						}
-=======
+
             const halfFilterSize = Math.floor(filterSize / 2);
             const yMin = Math.max(0, y_center - halfFilterSize);
             const yMax = Math.min(inputData.height - 1, y_center + halfFilterSize);
@@ -156,7 +156,6 @@
                         const grayValue = rgb2gray(inputData.data[index], inputData.data[index + 1], inputData.data[index + 2]);
                         const weight = Wi(x_center, y_center, x, y, N, i, sigma);
                         accumulator += grayValue * grayValue * weight;
->>>>>>> da065445561e5b576921b87460370d45c6dfe0f5
                     }
                 }
             }
