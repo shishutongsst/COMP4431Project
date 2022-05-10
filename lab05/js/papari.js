@@ -60,15 +60,19 @@
 
         //Internal function to calculate Mi
         function Mi(x_center, y_center, N, i, sigma, filterSize) {
-            var accumulator = 0;
-            //Convolve the entire image
-            for (var y = 0; y < inputData.height; y++) {
-                for (var x = 0; x < inputData.width; x++) {
+            let accumulator = 0;
+            //Convolve the filter size
+            const yMin = Math.max(0, y_center - filterSize / 2);
+            const yMax = Math.min(inputData.height - 1, y_center + filterSize / 2);
+            const xMin = Math.max(0, x_center - filterSize / 2);
+            const xMax = Math.min(inputData.width - 1, x_center + filterSize / 2);
+            for (let y = yMin; y < yMax; y++) {
+                for (let x = xMin; x < xMax; x++) {
                     if (Math.hypot(x - x_center, y - y_center) <= filterSize / 2) {
-                        var arrayCount = (x + y * inputData.width) * 4;
-                        var GrayValue = 0.299 * inputData.data[arrayCount] + 0.587 * inputData.data[arrayCount + 1] + 0.114 * inputData.data[arrayCount + 2];
-                        var weight = Wi(x_center, y_center, x, y, N, i, sigma);
-                        accumulator += GrayValue * weight;
+                        const index = (x + y * inputData.width) * 4;
+                        const grayValue = 0.299 * inputData.data[index] + 0.587 * inputData.data[index + 1] + 0.114 * inputData.data[index + 2];
+                        const weight = Wi(x_center, y_center, x, y, N, i, sigma);
+                        accumulator += grayValue * weight;
                     }
                 }
             }
