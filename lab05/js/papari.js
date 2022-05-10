@@ -14,6 +14,13 @@
         var shiftSize = (size - 1) / 4;
         var sideLength = (size - 1) / 2 + 1;
         var regionSize = sideLength * sideLength;
+        
+        /*
+         * An internal function to calculate the Gaussian kernel
+         */
+        function Gaussian(x, y, sigma) { //x y refer to thr distance
+            return Math.exp(-(x*x+y*y)/(2*sigma*sigma))/(2*Math.PI*sigma*sigma);
+        }
 
         function Ui(x1, y1, x2, y2, N, i) {
             /**
@@ -40,6 +47,19 @@
                     return 0;
                 }
             }
+        }
+        /*//An internal function to cauculate Vi
+        function V(x1, y1, x2, y2, N, i, sigma) {
+            var gaussian = Gaussian(x1-x2, y1-y2, sigma/4);
+            var Ui = U(x1, y1, x2, y2, N, i);
+            return gaussian * Ui;
+        }*/
+        //An internal function to calculate weight wi
+        
+        function Wi(x1, y1, x2, y2, N, i, sigma) {
+            var Ui = U(x1, y1, x2, y2, N, i);
+            var gaussian = Gaussian(x1-x2, y1-y2, sigma);
+            return gaussian * Ui;
         }
 
         function regionStat(x, y) {
