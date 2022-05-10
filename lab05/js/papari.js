@@ -52,8 +52,8 @@
         //An internal function to calculate weight wi
 
         function Wi(x1, y1, x2, y2, N, i, sigma) {
-            var ui = Ui(x1, y1, x2, y2, N, i);
-            var gaussian = Gaussian(x2 - x1, y2 - y1, sigma);
+            const ui = Ui(x1, y1, x2, y2, N, i);
+            const gaussian = Gaussian(x2 - x1, y2 - y1, sigma);
             return gaussian * ui;
         }
 
@@ -102,23 +102,25 @@
 
         //Internal function to calculate the output
         function outputPhi(x_center, y_center, N, sigma, filterSize, q) {
-            var numerator = 0;
-            var denominator = 0;
-            for (var i = 1; i <= N; i++) {
-                numerator += Mi(x_center, y_center, N, i, sigma, filterSize) * Math.pow(Si_sqr(x_center, y_center, N, i, sigma, filterSize), -q);
-                denominator += Math.pow(Si_sqr(x_center, y_center, N, i, sigma, filterSize), -q);
+            let numerator = 0;
+            let denominator = 0;
+            for (let i = 1; i <= N; i++) {
+                const si_sqr = Si_sqr(x_center, y_center, N, i, sigma, filterSize)
+                const si_sqr_pow_neg_q = Math.pow(si_sqr, -q)
+                numerator += Mi(x_center, y_center, N, i, sigma, filterSize) * si_sqr_pow_neg_q;
+                denominator += si_sqr_pow_neg_q;
             }
             return numerator / denominator;
         }
 
         //put the calculated output to the pixels
-        for (var y = 0; y < inputData.height; y++) {
-            for (var x = 0; x < inputData.width; x++) {
-                var arrayCount = (x + y * inputData.width) * 4;
-                    outputData.data[arrayCount] = outputPhi(x, y, N, sigma, filterSize, q);
-                    outputData.data[arrayCount + 1] = outputPhi(x, y, N, sigma, filterSize, q);
-                    outputData.data[arrayCount + 2] = outputPhi(x, y, N, sigma, filterSize, q);
-
+        for (let y = 0; y < inputData.height; y++) {
+            for (let x = 0; x < inputData.width; x++) {
+                const index = (x + y * inputData.width) * 4;
+                const grayscale = outputPhi(x, y, N, sigma, filterSize, q);
+                outputData.data[index] = grayscale;
+                outputData.data[index + 1] = grayscale;
+                outputData.data[index + 2] = grayscale;
             }
         }
     }
