@@ -4,7 +4,7 @@
     /*
      * Apply Kuwahara filter to the input data
      */
-    imageproc.kuwahara = function(inputData, outputData, size, type) {
+    imageproc.kuwahara = function(inputData, outputData, size) {
 
 		console.log("Applying Basic Kuwahara filter...");
 
