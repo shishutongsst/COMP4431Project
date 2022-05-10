@@ -80,30 +80,37 @@
         }
 
         function Si_sqr(x_center, y_center, N, i, sigma, filterSize) {
-            var accumulator = 0;
-            //Convolve the entire image
-            for (var y = 0; y < inputData.height; y++) {
-                for (var x = 0; x < inputData.width; x++) {
+            let accumulator = 0;
+            //Convolve the filter size
+            const yMin = Math.max(0, y_center - filterSize / 2);
+            const yMax = Math.min(inputData.height - 1, y_center + filterSize / 2);
+            const xMin = Math.max(0, x_center - filterSize / 2);
+            const xMax = Math.min(inputData.width - 1, x_center + filterSize / 2);
+            for (let y = yMin; y < yMax; y++) {
+                for (let x = xMin; x < xMax; x++) {
                     if (Math.hypot(x - x_center, y - y_center) <= filterSize / 2) {
-                        var arrayCount = (x + y * inputData.width) * 4;
-                        var GrayValue = 0.299 * inputData.data[arrayCount] + 0.587 * inputData.data[arrayCount + 1] + 0.114 * inputData.data[arrayCount + 2];
-                        var weight = Wi(x_center, y_center, x, y, N, i, sigma);
-                        accumulator += GrayValue * GrayValue * weight;
+                        const index = (x + y * inputData.width) * 4;
+                        const grayValue = 0.299 * inputData.data[index] + 0.587 * inputData.data[index + 1] + 0.114 * inputData.data[index + 2];
+                        const weight = Wi(x_center, y_center, x, y, N, i, sigma);
+                        accumulator += grayValue * grayValue * weight;
                     }
                 }
             }
-            return accumulator - Mi(x_center, y_center, N, i, sigma, filterSize)*Mi(x_center, y_center, N, i, sigma, filterSize);
+            const mi = Mi(x_center, y_center, N, i, sigma, filterSize);
+            return accumulator - mi * mi;
         }
 
-        //Internal function to calculate the output
-        function outputPhi(x_center, y_center, N, i, sigma, filterSize, q) {
-            var numerator = 0;
-            var denominator = 0;
-            for (var i = 1; i <= N; i++) {
-                numerator += Mi(x_center, y_center, N, i, sigma, filterSize) * Math.pow(Si_sqr(x_center, y_center, N, i, sigma, filterSize), -q);
-                denominator += Math.pow(Si_sqr(x_center, y_center, N, i, sigma, filterSize), -q);
+        //Internal function to calculate the output at (x_center, y_center)
+        function outputPhi(x_center, y_center, N, sigma, filterSize, q) {
+            let numerator = 0;
+            let denominator = 0;
+            for (let i = 1; i <= N; i++) {
+                const si_sqr = Si_sqr(x_center, y_center, N, i, sigma, filterSize)
+                const si_sqr_pow_neg_q = Math.pow(si_sqr, -q)
+                numerator += Mi(x_center, y_center, N, i, sigma, filterSize) * si_sqr_pow_neg_q;
+                denominator += si_sqr_pow_neg_q;
             }
-            return numerator/denominator;
+            return numerator / denominator;
         }
 
         for (var y = 0; y < inputData.height; y++) {
