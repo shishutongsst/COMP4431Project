@@ -83,7 +83,7 @@
             return accumulator;
         }
 
-        function Si_sqr(x_center, y_center, N, i, sigma, filterSize) {
+        function Si(x_center, y_center, N, i, sigma, filterSize) { //Get rid of the square root
             let accumulator = 0;
             //Convolve the filter size
             const halfFilterSize = Math.floor(filterSize / 2);
@@ -102,7 +102,7 @@
                 }
             }
             const mi = Mi(x_center, y_center, N, i, sigma, filterSize);
-            return accumulator - mi * mi;
+            return Math.sqrt(accumulator - mi * mi);
         }
 
         //Internal function to calculate the output
@@ -110,11 +110,16 @@
             let numerator = 0;
             let denominator = 0;
             for (let i = 1; i <= N; i++) {
-                const si_sqr = Si_sqr(x_center, y_center, N, i, sigma, filterSize)
-                const si_sqr_pow_neg_q = Math.pow(si_sqr, -q)
-                numerator += Mi(x_center, y_center, N, i, sigma, filterSize) * si_sqr_pow_neg_q;
-                denominator += si_sqr_pow_neg_q;
+                const si = Si(x_center, y_center, N, i, sigma, filterSize)
+                const si_pow_neg_q = Math.pow(si, -q)
+                numerator += Mi(x_center, y_center, N, i, sigma, filterSize) * si_pow_neg_q;
+                denominator += si_pow_neg_q;
             }
+            
+            /*if (isNaN(numerator / denominator)){
+                console.log("numerator:"+numerator);
+                console.log("denominator:"+denominator);
+            }*/
             return numerator / denominator;
         }
 
