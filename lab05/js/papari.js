@@ -8,14 +8,10 @@
         console.log("Applying Papari filter...");
 
         /*
-         * An internal function to find the regional stat centred at (x, y)
-         */
-        
-        /*
          * An internal function to calculate the Gaussian kernel
          */
         function Gaussian(x, y, sigma) { //x y refer to thr distance
-            return Math.exp(-(x*x+y*y)/(2*sigma*sigma))/(2*Math.PI*sigma*sigma);
+            return Math.exp(-(x * x + y * y) / (2 * sigma * sigma)) / (2 * Math.PI * sigma * sigma);
         }
 
         function Ui(x1, y1, x2, y2, N, i) {
@@ -44,27 +40,23 @@
                 }
             }
         }
-        /*//An internal function to cauculate Vi
+        /*
+        //An internal function to cauculate Vi
         function V(x1, y1, x2, y2, N, i, sigma) {
             var gaussian = Gaussian(x1-x2, y1-y2, sigma/4);
             var Ui = U(x1, y1, x2, y2, N, i);
             return gaussian * Ui;
-        }*/
+        }
+        */
 
         //An internal function to calculate weight wi
-        
+
         function Wi(x1, y1, x2, y2, N, i, sigma) {
-            /**
-             * @param {x1} Central_point.x
-             * @param {y1} Central_point.y
-             * @param {x2} Target_point.x
-             * @param {y2} Target_point.y
-             *  
-             */
-            var Ui = U(x1, y1, x2, y2, N, i);
-            var gaussian = Gaussian(x1-x2, y1-y2, sigma);
+            const Ui = Ui(x1, y1, x2, y2, N, i);
+            const gaussian = Gaussian(x2 - x1, y2 - y1, sigma);
             return gaussian * Ui;
         }
+
 
         //Internal function to calculate Mi
         function Mi(x_center, y_center, N, i, sigma, filterSize) {
@@ -72,11 +64,11 @@
             //Convolve the entire image
             for (var y = 0; y < inputData.height; y++) {
                 for (var x = 0; x < inputData.width; x++) {
-                    if (Math.hypot(x-x_center, y-y_center) <= filterSize/2) {
+                    if (Math.hypot(x - x_center, y - y_center) <= filterSize / 2) {
                         var arrayCount = (x + y * inputData.width) * 4;
-                        var GrayValue = 0.299 * inputData.data[arrayCount] + 0.587 * inputData.data[arrayCount+1] + 0.114 * inputData.data[arrayCount+2];
+                        var GrayValue = 0.299 * inputData.data[arrayCount] + 0.587 * inputData.data[arrayCount + 1] + 0.114 * inputData.data[arrayCount + 2];
                         var weight = Wi(x_center, y_center, x, y, N, i, sigma);
-                        accumulator += GrayValue*weight;
+                        accumulator += GrayValue * weight;
                     }
                 }
             }
@@ -88,18 +80,18 @@
             //Convolve the entire image
             for (var y = 0; y < inputData.height; y++) {
                 for (var x = 0; x < inputData.width; x++) {
-                    if (Math.hypot(x-x_center, y-y_center) <= filterSize/2) {
+                    if (Math.hypot(x - x_center, y - y_center) <= filterSize / 2) {
                         var arrayCount = (x + y * inputData.width) * 4;
-                        var GrayValue = 0.299 * inputData.data[arrayCount] + 0.587 * inputData.data[arrayCount+1] + 0.114 * inputData.data[arrayCount+2];
+                        var GrayValue = 0.299 * inputData.data[arrayCount] + 0.587 * inputData.data[arrayCount + 1] + 0.114 * inputData.data[arrayCount + 2];
                         var weight = Wi(x_center, y_center, x, y, N, i, sigma);
-                        accumulator += GrayValue*GrayValue*weight;
+                        accumulator += GrayValue * GrayValue * weight;
                     }
                 }
             }
             return accumulator - Mi(x_center, y_center, N, i, sigma, filterSize)*Mi(x_center, y_center, N, i, sigma, filterSize);
         }
 
-        //Internal function to calculate 
+        //Internal function to calculate the output
         function outputPhi(x_center, y_center, N, i, sigma, filterSize, q) {
             var numerator = 0;
             var denominator = 0;
@@ -110,58 +102,9 @@
             return numerator/denominator;
         }
 
-        function regionStat(x, y) {
-            // Find the mean colour and brightness
-            var meanR = 0, meanG = 0, meanB = 0;
-            var meanValue = 0;
-            for (var j = -shiftSize; j <= shiftSize; j++) {
-                for (var i = -shiftSize; i <= shiftSize; i++) {
-                    var pixel = imageproc.getPixel(inputData, x + i, y + j);
-
-                    // For the mean colour
-                    meanR += pixel.r;
-                    meanG += pixel.g;
-                    meanB += pixel.b;
-
-                    // For the mean brightness
-                    meanValue += (pixel.r + pixel.g + pixel.b) / 3;
-                }
-            }
-            meanR /= regionSize;
-            meanG /= regionSize;
-            meanB /= regionSize;
-            meanValue /= regionSize;
-
-            // Find the variance
-            var variance = 0;
-            for (var j = -shiftSize; j <= shiftSize; j++) {
-                for (var i = -shiftSize; i <= shiftSize; i++) {
-                    var pixel = imageproc.getPixel(inputData, x + i, y + j);
-                    var value = (pixel.r + pixel.g + pixel.b) / 3;
-
-                    variance += Math.pow(value - meanValue, 2);
-                }
-            }
-            variance /= regionSize;
-
-            // Return the mean and variance as an object
-            return {
-                mean: { r: meanR, g: meanG, b: meanB },
-                variance: variance
-            };
-        }
-
         for (var y = 0; y < inputData.height; y++) {
             for (var x = 0; x < inputData.width; x++) {
-                // Find the statistics of the four sub-regions
-                var regionA = regionStat(x - shiftSize, y - shiftSize, inputData);
-                var regionB = regionStat(x + shiftSize, y - shiftSize, inputData);
-                var regionC = regionStat(x - shiftSize, y + shiftSize, inputData);
-                var regionD = regionStat(x + shiftSize, y + shiftSize, inputData);
 
-                // Get the minimum variance value
-                var minV = Math.min(regionA.variance, regionB.variance,
-                    regionC.variance, regionD.variance);
 
                 var i = (x + y * inputData.width) * 4;
 
@@ -191,5 +134,4 @@
             }
         }
     }
-
 }(window.imageproc = window.imageproc || {}));
