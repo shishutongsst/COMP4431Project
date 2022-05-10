@@ -99,6 +99,17 @@
             return accumulator - Mi(x_center, y_center, N, i, sigma, filterSize)*Mi(x_center, y_center, N, i, sigma, filterSize);
         }
 
+        //Internal function to calculate 
+        function outputPhi(x_center, y_center, N, i, sigma, filterSize, q) {
+            var numerator = 0;
+            var denominator = 0;
+            for (var i = 1; i <= N; i++) {
+                numerator += Mi(x_center, y_center, N, i, sigma, filterSize) * Math.pow(Si_sqr(x_center, y_center, N, i, sigma, filterSize), -q);
+                denominator += Math.pow(Si_sqr(x_center, y_center, N, i, sigma, filterSize), -q);
+            }
+            return numerator/denominator;
+        }
+
         function regionStat(x, y) {
             // Find the mean colour and brightness
             var meanR = 0, meanG = 0, meanB = 0;
