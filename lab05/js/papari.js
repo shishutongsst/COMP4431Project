@@ -52,9 +52,9 @@
         //An internal function to calculate weight wi
 
         function Wi(x1, y1, x2, y2, N, i, sigma) {
-            const Ui = Ui(x1, y1, x2, y2, N, i);
-            const gaussian = Gaussian(x2 - x1, y2 - y1, sigma);
-            return gaussian * Ui;
+            var ui = Ui(x1, y1, x2, y2, N, i);
+            var gaussian = Gaussian(x2 - x1, y2 - y1, sigma);
+            return gaussian * ui;
         }
 
 
@@ -92,7 +92,7 @@
         }
 
         //Internal function to calculate the output
-        function outputPhi(x_center, y_center, N, i, sigma, filterSize, q) {
+        function outputPhi(x_center, y_center, N, sigma, filterSize, q) {
             var numerator = 0;
             var denominator = 0;
             for (var i = 1; i <= N; i++) {
@@ -102,35 +102,14 @@
             return numerator/denominator;
         }
 
+        //put the calculated output to the pixels
         for (var y = 0; y < inputData.height; y++) {
             for (var x = 0; x < inputData.width; x++) {
+                var arrayCount = (x + y * inputData.width) * 4;
+                    outputData.data[arrayCount] = outputPhi(x, y, N, sigma, filterSize, q);
+                    outputData.data[arrayCount + 1] = outputPhi(x, y, N, sigma, filterSize, q);
+                    outputData.data[arrayCount + 2] = outputPhi(x, y, N, sigma, filterSize, q);
 
-
-                var i = (x + y * inputData.width) * 4;
-
-                // Put the mean colour of the region with the minimum
-                // variance in the pixel
-                switch (minV) {
-                    case regionA.variance:
-                        outputData.data[i] = regionA.mean.r;
-                        outputData.data[i + 1] = regionA.mean.g;
-                        outputData.data[i + 2] = regionA.mean.b;
-                        break;
-                    case regionB.variance:
-                        outputData.data[i] = regionB.mean.r;
-                        outputData.data[i + 1] = regionB.mean.g;
-                        outputData.data[i + 2] = regionB.mean.b;
-                        break;
-                    case regionC.variance:
-                        outputData.data[i] = regionC.mean.r;
-                        outputData.data[i + 1] = regionC.mean.g;
-                        outputData.data[i + 2] = regionC.mean.b;
-                        break;
-                    case regionD.variance:
-                        outputData.data[i] = regionD.mean.r;
-                        outputData.data[i + 1] = regionD.mean.g;
-                        outputData.data[i + 2] = regionD.mean.b;
-                }
             }
         }
     }
