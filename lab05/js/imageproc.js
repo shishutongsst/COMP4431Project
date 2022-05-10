@@ -25,6 +25,7 @@
     imageproc.updateInputImage = function (fileurl) {
         var image = new Image();
         image.onload = function () {
+            input.clearRect(0, 0, input.canvas.width, input.canvas.height);
             input.drawImage(image, 0, 0);
         }
         if (fileurl) {
