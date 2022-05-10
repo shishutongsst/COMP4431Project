@@ -56,7 +56,10 @@
             const gaussian = Gaussian(x2 - x1, y2 - y1, sigma);
             return gaussian * ui;
         }
-
+        
+        function rgb2gray(r, g, b) {
+            return 0.2989 * r + 0.5870 * g + 0.1140 * b;
+        }
 
         //Internal function to calculate Mi
         function Mi(x_center, y_center, N, i, sigma, filterSize) {
@@ -70,7 +73,7 @@
                 for (let x = xMin; x < xMax; x++) {
                     if (Math.hypot(x - x_center, y - y_center) <= filterSize / 2) {
                         const index = (x + y * inputData.width) * 4;
-                        const grayValue = 0.299 * inputData.data[index] + 0.587 * inputData.data[index + 1] + 0.114 * inputData.data[index + 2];
+                        const grayValue = rgb2gray(inputData.data[index], inputData.data[index + 1], inputData.data[index + 2]);
                         const weight = Wi(x_center, y_center, x, y, N, i, sigma);
                         accumulator += grayValue * weight;
                     }
@@ -90,7 +93,7 @@
                 for (let x = xMin; x < xMax; x++) {
                     if (Math.hypot(x - x_center, y - y_center) <= filterSize / 2) {
                         const index = (x + y * inputData.width) * 4;
-                        const grayValue = 0.299 * inputData.data[index] + 0.587 * inputData.data[index + 1] + 0.114 * inputData.data[index + 2];
+                        const grayValue = rgb2gray(inputData.data[index], inputData.data[index + 1], inputData.data[index + 2]);
                         const weight = Wi(x_center, y_center, x, y, N, i, sigma);
                         accumulator += grayValue * grayValue * weight;
                     }
