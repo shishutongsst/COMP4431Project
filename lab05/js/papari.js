@@ -14,7 +14,34 @@
         var shiftSize = (size - 1) / 4;
         var sideLength = (size - 1) / 2 + 1;
         var regionSize = sideLength * sideLength;
-        
+
+        function Ui(x1, y1, x2, y2, N, i) {
+            /**
+             * @param {x1} Central_point.x
+             * @param {y1} Central_point.y
+             * @param {x2} Target_point.x
+             * @param {y2} Target_point.y
+             *  
+             */
+            if (i === N) {
+                let angle = Math.atan2(y2 - y1, x2 - x1);
+                if (angle < Math.PI / N && angle > -Math.PI / N) {
+                    return N;
+                } else {
+                    return 0;
+                }
+            }
+            else {
+                let angle = Math.atan2(y2 - y1, x2 - x1);
+                angle = (angle + 2 * Math.PI) % (2 * Math.PI);
+                if (angle < 2 * Math.PI / N * (i + 1 / 2) && angle > 2 * Math.PI / N * (i - 1 / 2)) {
+                    return N;
+                } else {
+                    return 0;
+                }
+            }
+        }
+
         function regionStat(x, y) {
             // Find the mean colour and brightness
             var meanR = 0, meanG = 0, meanB = 0;
