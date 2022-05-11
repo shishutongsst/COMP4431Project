@@ -22,6 +22,7 @@
              * @param {y2} Target_point.y
              *  
              */
+            if (x1 === x2 && y1 === y2) { return 0 }
             if (i === N) {
                 let angle = Math.atan2(y2 - y1, x2 - x1);
                 if (angle < Math.PI / N && angle > -Math.PI / N) {
@@ -184,7 +185,8 @@
                 } else {
                     const si = Si(x_center, y_center, N, i, sigma, filterSize).Si;
                     const si_pow_neg_q = Math.pow(si, -q)
-                    numerator += Mi(x_center, y_center, N, i, sigma, filterSize).Mi * si_pow_neg_q;
+                    const mi = Mi(x_center, y_center, N, i, sigma, filterSize).Mi
+                    numerator += mi * si_pow_neg_q;
                     denominator += si_pow_neg_q;
                 }
             }
