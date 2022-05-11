@@ -168,19 +168,21 @@
 
             for (let i = 1; i <= N; i++) {
                 if (isColor) {
-                    const rsi = Si(x_center, y_center, N, i, sigma, filterSize).colorSi.r;
+                   const colorSi = Si(x_center, y_center, N, i, sigma, filterSize).colorSi;
+                   const colorMi = Mi(x_center, y_center, N, i, sigma, filterSize).colorMi;
+                    const rsi = colorSi.r;
                     const rsi_pow_neg_q = Math.pow(rsi, -q)
-                    rnumerator += Mi(x_center, y_center, N, i, sigma, filterSize).colorMi.r * rsi_pow_neg_q;
+                    rnumerator += colorMi.r * rsi_pow_neg_q;
                     rdenominator += rsi_pow_neg_q;
 
-                    const gsi = Si(x_center, y_center, N, i, sigma, filterSize).colorSi.g;
+                    const gsi = colorSi.g;
                     const gsi_pow_neg_q = Math.pow(gsi, -q)
-                    gnumerator += Mi(x_center, y_center, N, i, sigma, filterSize).colorMi.g * gsi_pow_neg_q;
+                    gnumerator += colorMi.g * gsi_pow_neg_q;
                     gdenominator += gsi_pow_neg_q;
 
-                    const bsi = Si(x_center, y_center, N, i, sigma, filterSize).colorSi.b;
+                    const bsi = colorSi.b;
                     const bsi_pow_neg_q = Math.pow(bsi, -q)
-                    bnumerator += Mi(x_center, y_center, N, i, sigma, filterSize).colorMi.b * bsi_pow_neg_q;
+                    bnumerator += colorMi.b * bsi_pow_neg_q;
                     bdenominator += bsi_pow_neg_q;
 
                 } else {
