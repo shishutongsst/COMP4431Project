@@ -133,15 +133,19 @@
                     }
                 }
             }
-            const mi = Mi(x_center, y_center, N, i, sigma, filterSize).Mi;
-            const si = Math.sqrt(accumulator - mi * mi);
-
-            const rmi = Mi(x_center, y_center, N, i, sigma, filterSize).colorMi.r;
-            const gmi = Mi(x_center, y_center, N, i, sigma, filterSize).colorMi.g;
-            const bmi = Mi(x_center, y_center, N, i, sigma, filterSize).colorMi.b;
-            const rsi = Math.sqrt(rAccumulator - rmi * rmi);
-            const gsi = Math.sqrt(gAccumulator - gmi * gmi);
-            const bsi = Math.sqrt(bAccumulator - bmi * bmi);
+            let si = 0, rsi = 0, gsi = 0, bsi = 0;
+            if (isColor) {
+                const rmi = Mi(x_center, y_center, N, i, sigma, filterSize).colorMi.r;
+                const gmi = Mi(x_center, y_center, N, i, sigma, filterSize).colorMi.g;
+                const bmi = Mi(x_center, y_center, N, i, sigma, filterSize).colorMi.b;
+                rsi = Math.sqrt(rAccumulator - rmi * rmi);
+                gsi = Math.sqrt(gAccumulator - gmi * gmi);
+                bsi = Math.sqrt(bAccumulator - bmi * bmi);
+            }
+            else {
+                const mi = Mi(x_center, y_center, N, i, sigma, filterSize).Mi;
+                si = Math.sqrt(accumulator - mi * mi);
+            }
             return {
                 colorSi: { r: rsi, g: gsi, b: bsi },
                 Si: si
