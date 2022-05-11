@@ -99,11 +99,14 @@
                 const N = parseInt($("#papari-filter-N").val());
                 const sigma = parseInt($("#papari-filter-sigma").val());
                 const filterSize = parseInt($("#papari-filter-size").val());
+                const halfFilterSize = Math.floor(filterSize / 2);
+                if (halfFilterSize < 3 * sigma) {
+                    alert("Filter size is too small for the given sigma");
+                    return
+                }
                 const isColor = $("#papari-grayscale").prop("checked");
                 imageproc.papari(inputImage, outputImage, q, N, sigma, filterSize, isColor);
-
                 break;
-
         }
     }
 
