@@ -42,10 +42,10 @@
         }
         /*
         //An internal function to cauculate Vi
-        function V(x1, y1, x2, y2, N, i, sigma) {
+        function Vi(x1, y1, x2, y2, N, i, sigma) {
             var gaussian = Gaussian(x1-x2, y1-y2, sigma/4);
-            var Ui = U(x1, y1, x2, y2, N, i);
-            return gaussian * Ui;
+            var ui = Ui(x1, y1, x2, y2, N, i);
+            return gaussian * ui;
         }
         */
 
