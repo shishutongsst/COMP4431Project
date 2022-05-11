@@ -103,6 +103,14 @@
             };
         }
 
+        function numericalStability(number) {
+            let out = number;
+            if (Number.isNaN(number) || number < 1e-5) {
+                out = 1e-5
+            }
+            return out
+        }
+
         function Si(x_center, y_center, N, i, sigma, filterSize) { //Get rid of the square root
             let accumulator = 0;
             let rAccumulator = 0;
@@ -143,10 +151,14 @@
                 rsi = Math.sqrt(rAccumulator - rmi * rmi);
                 gsi = Math.sqrt(gAccumulator - gmi * gmi);
                 bsi = Math.sqrt(bAccumulator - bmi * bmi);
+                rsi = numericalStability(rsi);
+                gsi = numericalStability(gsi);
+                bsi = numericalStability(bsi);
             }
             else {
                 const mi = Mi(x_center, y_center, N, i, sigma, filterSize).Mi;
-                si = Math.sqrt(accumulator - mi * mi);
+                si = Math.sqrt(accumulator - mi * mi)
+                si = numericalStability(si)
             }
             return {
                 colorSi: { r: rsi, g: gsi, b: bsi },
@@ -168,8 +180,8 @@
 
             for (let i = 1; i <= N; i++) {
                 if (isColor) {
-                   const colorSi = Si(x_center, y_center, N, i, sigma, filterSize).colorSi;
-                   const colorMi = Mi(x_center, y_center, N, i, sigma, filterSize).colorMi;
+                    const colorSi = Si(x_center, y_center, N, i, sigma, filterSize).colorSi;
+                    const colorMi = Mi(x_center, y_center, N, i, sigma, filterSize).colorMi;
                     const rsi = colorSi.r;
                     const rsi_pow_neg_q = Math.pow(rsi, -q)
                     rnumerator += colorMi.r * rsi_pow_neg_q;
