@@ -52,10 +52,11 @@
 
         //An internal function to calculate weight wi
 
-        function Wi(x1, y1, x2, y2, N, i, sigma) {
+        function Wi(x1, y1, x2, y2, N, i, sigma, factor) {
             const ui = Ui(x1, y1, x2, y2, N, i);
             const gaussian = Gaussian(x2 - x1, y2 - y1, sigma);
-            return gaussian * ui;
+            const out = gaussian * ui;
+            return out / factor[i]
         }
 
         function rgb2gray(r, g, b) {
@@ -83,14 +84,14 @@
                             const redValue = inputData.data[index];
                             const greenValue = inputData.data[index + 1];
                             const blueValue = inputData.data[index + 2];
-                            const weight = Wi(x_center, y_center, x, y, N, i, sigma);
+                            const weight = Wi(x_center, y_center, x, y, N, i, sigma, wiFactor);
                             rAccumulator += redValue * weight;
                             gAccumulator += greenValue * weight;
                             bAccumulator += blueValue * weight;
                         } else {
                             const index = (x + y * inputData.width) * 4;
                             const grayValue = rgb2gray(inputData.data[index], inputData.data[index + 1], inputData.data[index + 2]);
-                            const weight = Wi(x_center, y_center, x, y, N, i, sigma);
+                            const weight = Wi(x_center, y_center, x, y, N, i, sigma, wiFactor);
                             accumulator += grayValue * weight;
                         }
                     }
@@ -118,7 +119,7 @@
                     if (Math.hypot(x - x_center, y - y_center) <= halfFilterSize) {
                         if (isColor) {
                             const index = (x + y * inputData.width) * 4;
-                            const weight = Wi(x_center, y_center, x, y, N, i, sigma);
+                            const weight = Wi(x_center, y_center, x, y, N, i, sigma, wiFactor);
                             const redValue = inputData.data[index];
                             const greenValue = inputData.data[index + 1];
                             const blueValue = inputData.data[index + 2];
@@ -128,7 +129,7 @@
                         } else {
                             const index = (x + y * inputData.width) * 4;
                             const grayValue = rgb2gray(inputData.data[index], inputData.data[index + 1], inputData.data[index + 2]);
-                            const weight = Wi(x_center, y_center, x, y, N, i, sigma);
+                            const weight = Wi(x_center, y_center, x, y, N, i, sigma, wiFactor);
                             accumulator += grayValue * grayValue * weight;
                         }
                     }
@@ -203,6 +204,25 @@
             };
         }
 
+        function wiRescaleFactor(N, sigma, filterSize) {
+            const halfFilterSize = Math.floor(filterSize / 2);
+            let sum = 0;
+            const factor = Array(N + 1).fill(0)
+            for (let i = 1; i <= N; i++) {
+                sum = 0;
+                for (let x = -halfFilterSize; x <= halfFilterSize; x++) {
+                    for (let y = -halfFilterSize; y <= halfFilterSize; y++) {
+                        if (Math.hypot(x, y) <= halfFilterSize) {
+                            sum += Ui(0, 0, x, y, N, i) * Gaussian(x, y, sigma)
+                        }
+                    }
+                }
+                factor[i] = sum
+            }
+            return factor
+        }
+
+        const wiFactor = wiRescaleFactor(N, sigma, filterSize);
         //put the calculated output to the pixels
         for (let y = 0; y < inputData.height; y++) {
             for (let x = 0; x < inputData.width; x++) {
